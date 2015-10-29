@@ -34,7 +34,7 @@ class Response(object):
     >>> resp = Response()
     >>> resp1 = Response(shutter_state=1)
     """
-    def __init__(self, shutter_state=0):
+    def __init__(self, shutter_state=0, shell_ids=None):
         path = os.path.dirname(pyfoxsi.__file__)
         for i in np.arange(3):
             path = os.path.dirname(path)
@@ -44,7 +44,10 @@ class Response(object):
         self._eff_area_per_shell = pd.read_csv(effarea_file, index_col=0)
         # find what shells are missing
         shell_numbers = np.array(self._eff_area_per_shell.columns, np.uint)
-        missing_shells = np.setdiff1d(shell_numbers, pyfoxsi.shell_ids)
+        if shell_ids is None:
+            missing_shells = np.setdiff1d(shell_numbers, pyfoxsi.shell_ids)
+        else:
+            missing_shells = np.setdiff1d(shell_numbers, shell_ids)
         # remove the missing shells
         self.__number_of_telescopes = 1
         for missing_shell in missing_shells:
