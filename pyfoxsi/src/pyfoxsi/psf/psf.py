@@ -14,7 +14,7 @@ from sunpy.map import Map
 
 __all__ = ['psf', 'convolve']
 
-def gauss2d((x,y), amplitude, xo, yo, sigma_x, sigma_y, theta) :
+def gauss2d( x, y, amplitude, xo, yo, sigma_x, sigma_y, theta) :
     r"""A two-dimensional eliptical Gaussian function of the form
 
     amplitude * np.exp( - (((x-xo)**2) / sigma**2))
@@ -23,7 +23,7 @@ def gauss2d((x,y), amplitude, xo, yo, sigma_x, sigma_y, theta) :
 
     Parameters
     ----------
-    (x,y) : array_like
+    x, y : array_like
         Array_like means all those objects -- lists, nested lists, etc. --
         that can be converted to an array.  We can also refer to
         variables like `var1`.
@@ -58,7 +58,7 @@ def gauss2d((x,y), amplitude, xo, yo, sigma_x, sigma_y, theta) :
     c = (np.sin(theta)**2)/(2*sigma_x**2) + (np.cos(theta)**2)/(2*sigma_y**2)
     return amplitude*np.exp( - (a*((x-xo)**2) + 2*b*(x-xo)*(y-yo) + c*((y-yo)**2)))
 
-def multi_gauss2d((x,y), amplitude, center, sigma_x, sigma_y, theta):
+def multi_gauss2d(x, y, amplitude, center, sigma_x, sigma_y, theta):
     r"""A sum of multiple two-dimensional eliptical Gaussian function of the form
 
     amplitude * np.exp( - (((x-xo)**2) / sigma**2))
@@ -70,7 +70,7 @@ def multi_gauss2d((x,y), amplitude, center, sigma_x, sigma_y, theta):
 
     Parameters
     ----------
-    (x,y) : array_like
+    x, y : array_like
         Array_like means all those objects -- lists, nested lists, etc. --
         that can be converted to an array.  We can also refer to
         variables like `var1`.
@@ -105,7 +105,7 @@ def multi_gauss2d((x,y), amplitude, center, sigma_x, sigma_y, theta):
     """
     i = 0
     for amp, sig_x, sig_y in zip(amplitude, sigma_x, sigma_y):
-        g = gauss2d((x, y), amp, center[0], center[1], sig_x, sig_y, theta)
+        g = gauss2d(x, y, amp, center[0], center[1], sig_x, sig_y, theta)
         if i == 0:
             result = g
         else:
